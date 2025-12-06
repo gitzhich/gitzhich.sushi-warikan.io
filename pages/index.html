@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="回転寿司の割り勘を簡単に計算">
+    <meta name="theme-color" content="#2196F3">
+    <title>回転寿司割り勘精算</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+    <header>
+        <h1>回転寿司割り勘精算</h1>
+    </header>
+
+    <main>
+        <!-- Section 1: 皿価格入力エリア -->
+        <section id="plate-prices-section">
+            <h2>1. 皿の価格設定</h2>
+            <div id="plate-types-container">
+                <!-- 皿設定がここに動的に追加される -->
+            </div>
+            <div class="input-group">
+                <input type="text" id="new-plate-name" placeholder="皿の名前 (例: 赤皿)">
+                <input type="number" id="new-plate-price" placeholder="単価 (円)" min="0">
+                <button id="add-plate-btn" class="btn primary">追加</button>
+            </div>
+            <p class="section-note">※レシートを見て皿の種類と単価を入力してください</p>
+        </section>
+
+        <!-- Section 2: 参加者入力エリア -->
+        <section id="participants-section">
+            <h2>2. 参加者登録</h2>
+            <div id="participants-list">
+                <!-- 参加者がここに表示される -->
+            </div>
+            <div class="input-group">
+                <input type="text" id="new-participant-name" placeholder="名前 (例: 太郎)">
+                <button id="add-participant-btn" class="btn primary">追加</button>
+            </div>
+        </section>
+
+        <!-- Section 3: 個別皿数入力エリア -->
+        <section id="plate-counts-section">
+            <h2>3. 食べた皿の枚数</h2>
+            <div id="plate-counts-container">
+                <p class="placeholder-text">皿設定と参加者を登録すると入力欄が表示されます</p>
+                <!-- 参加者ごとの入力フォームがここに生成される -->
+            </div>
+        </section>
+
+        <!-- Section 4: 支払者選択エリア -->
+        <section id="payer-section">
+            <h2>4. 支払者</h2>
+            <div class="input-group">
+                <label for="payer-select">まとめて支払った人:</label>
+                <select id="payer-select">
+                    <option value="">選択してください</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Section 5: 計算結果表示エリア -->
+        <section id="result-section">
+            <h2>5. 計算結果</h2>
+            <button id="calculate-btn" class="btn action-btn">計算する</button>
+            
+            <div id="result-display" class="hidden">
+                <div class="result-table-container">
+                    <table id="result-table">
+                        <thead>
+                            <tr>
+                                <th>名前</th>
+                                <th>金額</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 結果がここに表示される -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="walica-container">
+                    <h3>Walica入力用データ</h3>
+                    <textarea id="walica-output" readonly rows="4"></textarea>
+                    <button id="copy-btn" class="btn secondary">コピー</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <button id="reset-btn" class="btn danger">データをリセット</button>
+        <p>&copy; 2025 Sushi Warikan PWA</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
