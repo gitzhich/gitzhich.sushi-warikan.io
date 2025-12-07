@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sushi-warikan-v1';
+const CACHE_NAME = 'sushi-warikan-v2';
 const urlsToCache = [
     './',
     './index.html',

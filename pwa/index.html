@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 
 <body>
@@ -18,9 +19,29 @@
     </header>
 
     <main>
-        <!-- Section 1: 皿価格入力エリア -->
+        <!-- Section 1: 参加者入力エリア -->
+        <section id="participants-section">
+            <h2>1. 参加者登録</h2>
+            <div id="participants-list">
+                <!-- 参加者がここに表示される -->
+            </div>
+            <div class="input-group">
+                <input type="text" id="new-participant-name" placeholder="名前 (例: 太郎)">
+                <button id="add-participant-btn" class="btn primary">追加</button>
+            </div>
+        </section>
+
+        <!-- Section 2: 皿価格入力エリア -->
         <section id="plate-prices-section">
-            <h2>1. 皿の価格設定</h2>
+            <h2>2. 皿の価格設定</h2>
+
+            <div style="margin-bottom: 1rem;">
+                <button id="scan-receipt-btn" class="btn secondary" style="width:100%">
+                    <span role="img" aria-label="camera">📸</span> レシートから読み込む
+                </button>
+                <input type="file" id="receipt-upload" accept="image/*" capture="environment" style="display:none">
+            </div>
+
             <div id="plate-types-container">
                 <!-- 皿設定がここに動的に追加される -->
             </div>
@@ -32,17 +53,7 @@
             <p class="section-note">※レシートを見て皿の種類と単価を入力してください</p>
         </section>
 
-        <!-- Section 2: 参加者入力エリア -->
-        <section id="participants-section">
-            <h2>2. 参加者登録</h2>
-            <div id="participants-list">
-                <!-- 参加者がここに表示される -->
-            </div>
-            <div class="input-group">
-                <input type="text" id="new-participant-name" placeholder="名前 (例: 太郎)">
-                <button id="add-participant-btn" class="btn primary">追加</button>
-            </div>
-        </section>
+
 
         <!-- Section 3: 個別皿数入力エリア -->
         <section id="plate-counts-section">
@@ -97,6 +108,12 @@
         <button id="reset-btn" class="btn danger">データをリセット</button>
         <p>&copy; 2025 Sushi Warikan PWA</p>
     </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="hidden">
+        <div class="spinner"></div>
+        <p id="loading-text">文字を読み取っています...</p>
+    </div>
 
     <script src="app.js"></script>
     <script>
