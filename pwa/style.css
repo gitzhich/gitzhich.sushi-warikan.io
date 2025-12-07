@@ -68,6 +68,14 @@ h2 {
     display: flex;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
+    flex-wrap: wrap;
+    /* Allow wrapping */
+}
+
+@media (max-width: 600px) {
+    .input-group {
+        flex-direction: column;
+    }
 }
 
 .input-group input,
