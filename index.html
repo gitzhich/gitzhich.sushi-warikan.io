@@ -171,7 +171,27 @@
 
         .plate-count-row input {
             flex: 1;
-            text-align: right;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .btn-count {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: #fff;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            touch-action: manipulation; /* Improves touch response */
+            padding: 0; 
+        }
+
+        .btn-count:active {
+            background-color: #e9ecef;
         }
 
         .result-table {
@@ -350,9 +370,12 @@
                     html += `
                     <div class="plate-count-row">
                         <label>${plate.name} (${plate.price}円)</label>
+                        <button class="btn-count" onclick="updateCountRelative(${p.id}, ${plate.id}, -1)">-</button>
                         <input type="number" min="0" value="${count}" 
+                            id="input-${p.id}-${plate.id}"
                             onchange="updateCount(${p.id}, ${plate.id}, this.value)"
                             onclick="this.select()">
+                        <button class="btn-count" onclick="updateCountRelative(${p.id}, ${plate.id}, 1)">+</button>
                     </div>
                 `;
                 });
@@ -408,7 +431,19 @@
 
         function updateCount(pId, plateId, val) {
             if (!counts[pId]) counts[pId] = {};
-            counts[pId][plateId] = parseInt(val) || 0;
+            let newCount = parseInt(val) || 0;
+            if (newCount < 0) newCount = 0;
+            counts[pId][plateId] = newCount;
+            // Ensure input reflects valid value if user typed manually
+            const input = document.getElementById(`input-${pId}-${plateId}`);
+            if (input) input.value = newCount;
+        }
+
+        function updateCountRelative(pId, plateId, delta) {
+            if (!counts[pId]) counts[pId] = {};
+            const current = counts[pId][plateId] || 0;
+            const newVal = current + delta;
+            updateCount(pId, plateId, newVal);
         }
 
         function calculate() {
